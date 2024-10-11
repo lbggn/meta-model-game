@@ -41,7 +41,7 @@ jobs:
           docker build -t ghcr.io/${{ secrets.GHCR_USERNAME }}/meta-model-frontend:latest -f ./frontend/Dockerfile ./frontend
           docker push ghcr.io/${{ secrets.GHCR_USERNAME }}/meta-model-frontend:latest
 
-  build-mongodb:
+  build-database:
     runs-on: ubuntu-latest
 
     steps:

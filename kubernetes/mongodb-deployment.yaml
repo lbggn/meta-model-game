@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: meta-model-mongodb
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: meta-model-mongodb
+  template:
+    metadata:
+      labels:
+        app: meta-model-mongodb
+    spec:
+      containers:
+        - name: mongodb
+          image: ghcr.io/lbggn/meta-model-mongodb:latest
+          ports:
+            - containerPort: 27017
+          volumeMounts:
+            - name: mongodb-storage
+              mountPath: /data/db
+      volumes:
+        - name: mongodb-storage
+          persistentVolumeClaim:
+            claimName: meta-model-mongodb-pvc

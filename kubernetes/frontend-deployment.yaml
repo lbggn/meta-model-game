@@ -1,0 +1,19 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: meta-model-frontend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: meta-model-frontend
+  template:
+    metadata:
+      labels:
+        app: meta-model-frontend
+    spec:
+      containers:
+        - name: frontend
+          image: ghcr.io/lbggn/meta-model-frontend:latest
+          ports:
+            - containerPort: 3000
