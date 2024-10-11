@@ -62,26 +62,28 @@ jobs:
     needs: [build-backend, build-frontend, build-database]
     runs-on: ubuntu-latest
 
-    steps:
-      # Vérifier le code source du dépôt
+steps:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      # Installer Google Cloud SDK
-      - name: Set up Cloud SDK
-        uses: google-github-actions/setup-gcloud@v1
+      # Authentifier Google Cloud avec la clé JSON du compte de service
+      - name: Authenticate to Google Cloud
+        uses: google-github-actions/auth@v0
         with:
-          project_id: ${{ secrets.GKE_PROJECT_ID }}
-          service_account_key: ${{ secrets.GKE_SA_KEY }}
-          install_components: 'gke-gcloud-auth-plugin'
-          export_default_credentials: true
+          credentials_json: ${{ secrets.GKE_SA_KEY }}
 
-      # Configurer kubectl pour GKE
+      # Configurer gcloud pour utiliser le projet Google Cloud et la zone
+      - name: Set up Google Cloud configuration
+        run: |
+          gcloud config set project ${{ secrets.GKE_PROJECT_ID }}
+          gcloud config set compute/zone ${{ secrets.GKE_ZONE }}
+
+      # Obtenir les informations d'identification du cluster GKE
       - name: Get GKE credentials
         run: |
-          gcloud container clusters get-credentials ${{ secrets.GKE_CLUSTER_NAME }} --zone ${{ secrets.GKE_ZONE }} --project ${{ secrets.GKE_PROJECT_ID }}
+          gcloud container clusters get-credentials ${{ secrets.GKE_CLUSTER_NAME }}
 
-      # Appliquer les fichiers Kubernetes (backend, frontend, MongoDB, services, ingress)
+      # Appliquer les fichiers Kubernetes pour déployer l'application
       - name: Deploy backend, frontend, MongoDB and services to GKE
         run: |
           kubectl apply -f kubernetes/backend-deployment.yaml
