@@ -77,6 +77,7 @@ jobs:
       # Configurer gcloud pour utiliser le projet Google Cloud et la zone
       - name: Set up Google Cloud configuration
         run: |
+          gcloud config set project ${{ secrets.GKE_PROJECT_ID }}
           gcloud config set compute/zone ${{ secrets.GKE_ZONE }}
 
       # Obtenir les informations d'identification du cluster GKE
