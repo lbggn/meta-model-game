@@ -71,7 +71,6 @@ jobs:
         uses: google-github-actions/auth@v0
         with:
           credentials_json: ${{ secrets.GKE_SA_KEY }}
-          install_components: 'gke-gcloud-auth-plugin'
 
       # Configurer gcloud pour utiliser le projet Google Cloud et la zone
       - name: Set up Google Cloud configuration
@@ -79,9 +78,16 @@ jobs:
           gcloud config set project ${{ secrets.GKE_PROJECT_ID }}
           gcloud config set compute/zone ${{ secrets.GKE_ZONE }}
 
+      # Installer le plugin gke-gcloud-auth-plugin
+      - name: Install gke-gcloud-auth-plugin
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y google-cloud-sdk-gke-gcloud-auth-plugin
+
       # Obtenir les informations d'identification du cluster GKE
       - name: Get GKE credentials
         run: |
+          gcloud components install gke-gcloud-auth-plugin
           gcloud container clusters get-credentials ${{ secrets.GKE_CLUSTER_NAME }}
 
       # Appliquer les fichiers Kubernetes pour déployer l'application
