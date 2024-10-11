@@ -78,6 +78,14 @@ jobs:
       - name: Set up Google Cloud configuration
         run: |
           gcloud config set compute/zone ${{ secrets.GKE_ZONE }}
+      
+      # Ajouter le dépôt Google Cloud et installer gke-gcloud-auth-plugin
+      - name: Install gke-gcloud-auth-plugin
+        run: |
+          echo "deb [signed-by=/usr/share/keyrings/cloud.google.gpg] https://packages.cloud.google.com/apt cloud-sdk main" | sudo tee -a /etc/apt/sources.list.d/google-cloud-sdk.list
+          sudo apt-get install -y apt-transport-https ca-certificates gnupg
+          curl https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo tee /usr/share/keyrings/cloud.google.gpg
+          sudo apt-get update && sudo apt-get install google-cloud-cli-gke-gcloud-auth-plugin -y
 
       # Obtenir les informations d'identification du cluster GKE
       - name: Get GKE credentials
