@@ -71,6 +71,7 @@ jobs:
         uses: google-github-actions/auth@v0
         with:
           credentials_json: ${{ secrets.GKE_SA_KEY }}
+          install_components: 'gke-gcloud-auth-plugin'
 
       # Configurer gcloud pour utiliser le projet Google Cloud et la zone
       - name: Set up Google Cloud configuration
