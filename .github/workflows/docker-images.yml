@@ -55,5 +55,5 @@ jobs:
       # Construire l'image Docker de MongoDB avec init-phrases.js
       - name: Build and push MongoDB image
         run: |
-          docker build -t ghcr.io/${{ secrets.GHCR_USERNAME }}/meta-model-mongodb:latest -f ./mongodb/Dockerfile ./mongodb
+          docker build -t ghcr.io/${{ secrets.GHCR_USERNAME }}/meta-model-mongodb:latest -f ./database/Dockerfile ./database
           docker push ghcr.io/${{ secrets.GHCR_USERNAME }}/meta-model-mongodb:latest

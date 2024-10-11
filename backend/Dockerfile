@@ -1,5 +1,5 @@
 # Dockerfile for the Go backend
-FROM golang:1.16-alpine
+FROM golang:1.23-alpine
 
 WORKDIR /app
 
