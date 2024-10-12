@@ -92,6 +92,10 @@ jobs:
         run: |
           gcloud container clusters get-credentials ${{ secrets.GKE_CLUSTER_NAME }}
 
+      - name: Deploy backend, frontend, MongoDB and services to GKE
+        run: |
+          kubectl apply -f kubernetes/namespace.yaml
+
       # Créer le secret Kubernetes pour le registre privé
       - name: Create Kubernetes secret for Docker registry (GHCR)
         run: |
@@ -100,12 +104,11 @@ jobs:
             --docker-username="${{ secrets.GHCR_USERNAME }}" \
             --docker-password="${{ secrets.GHCR_TOKEN }}" \
             --docker-email="${{ secrets.GHCR_EMAIL }}" \
-            --dry-run=client -o yaml | kubectl apply -f -
+            --dry-run=client -o yaml | kubectl apply -n meta-model -f -
 
       # Appliquer les fichiers Kubernetes pour déployer l'application
       - name: Deploy backend, frontend, MongoDB and services to GKE
         run: |
-          kubectl apply -f kubernetes/namespace.yaml
           kubectl apply -f kubernetes/mongodb-pvc.yaml
           kubectl apply -f kubernetes/mongodb-deployment.yaml
           kubectl apply -f kubernetes/mongodb-service.yaml
