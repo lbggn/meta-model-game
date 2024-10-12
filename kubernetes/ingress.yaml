@@ -3,7 +3,6 @@ kind: Ingress
 metadata:
   name: meta-model-ingress
   annotations:
-    kubernetes.io/ingress.global-static-ip-name: "34.144.233.78"  # Remplacez par le nom de votre IP statique
     cert-manager.io/cluster-issuer: "letsencrypt-prod"  # Utilise Let's Encrypt via Cert-Manager
     networking.gke.io/managed-certificates: "managed-cert"  # Certificat managé par GKE
 spec:
@@ -15,14 +14,14 @@ spec:
             pathType: Prefix
             backend:
               service:
-                name: backend-service
+                name: meta-model-backend-service
                 port:
                   number: 8000
           - path: /
             pathType: Prefix
             backend:
               service:
-                name: frontend-service
+                name: meta-model-frontend-service
                 port:
                   number: 80
   tls:

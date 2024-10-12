@@ -7,6 +7,7 @@ import (
 	"log"
 	"math/rand"
 	"net/http"
+	"os"
 	"time"
 
 	"github.com/gorilla/mux"
@@ -29,7 +30,12 @@ type Phrase struct {
 
 // ConnectDB établit la connexion à MongoDB
 func ConnectDB() *mongo.Client {
-	clientOptions := options.Client().ApplyURI("mongodb://localhost:27017")
+	mongoURI := os.Getenv("MONGODB_URI")
+	if mongoURI == "" {
+		// Si la variable d'environnement n'est pas définie, utiliser une valeur par défaut
+		mongoURI = "mongodb://localhost:27017" // Remplacez cela par une valeur par défaut si nécessaire
+	}
+	clientOptions := options.Client().ApplyURI(mongoURI)
 
 	client, err := mongo.Connect(context.TODO(), clientOptions)
 	if err != nil {
