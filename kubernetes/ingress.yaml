@@ -2,9 +2,10 @@ apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: meta-model-ingress
+  namespace: meta-model
   annotations:
-    cert-manager.io/cluster-issuer: "letsencrypt-prod"  # Utilise Let's Encrypt via Cert-Manager
-    networking.gke.io/managed-certificates: "managed-cert"  # Certificat managé par GKE
+    kubernetes.io/ingress.class: "gce"  # Utilisez GCE comme contrôleur d'Ingress
+    kubernetes.io/ingress.global-static-ip-name: "34.144.233.78"
 spec:
   rules:
     - host: "meta.bggn.ch"  # Remplacez par votre domaine

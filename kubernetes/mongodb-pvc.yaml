@@ -2,6 +2,7 @@ apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
   name: meta-model-mongodb-pvc
+  namespace: meta-model
   labels:
     app: meta-model-mongodb
 spec:
