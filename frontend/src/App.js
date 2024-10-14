@@ -25,6 +25,9 @@ const categories = {
 };
 
 function App() {
+  // Url pourle backend
+  const backendUrl = process.env.META_MODEL_BACKEND_URL || 'http://localhost:8000';  // Valeur par défaut
+
   // États pour la partie jeu
   const [phrase, setPhrase] = useState(null);
   const [categoryGuess, setCategoryGuess] = useState('');
@@ -50,7 +53,7 @@ function App() {
   // Charger toutes les phrases depuis MongoDB
   const fetchAllPhrases = async () => {
     try {
-      const response = await axios.get('http://localhost:8000/api/phrases');
+      const response = await axios.get(`${backendUrl}/api/phrases`);
       setAllPhrases(response.data);
     } catch (error) {
       console.error("Erreur lors de la récupération de toutes les phrases :", error);
@@ -64,7 +67,7 @@ function App() {
       const params = {};
       if (filterCategory) params.category = filterCategory;
 
-      const response = await axios.get('http://localhost:8000/api/phrase', { params });
+      const response = await axios.get(`${backendUrl}/api/phrase`, { params });
       setPhrase(response.data);
       setLoading(false);
       setCorrect(null); // Réinitialiser le feedback

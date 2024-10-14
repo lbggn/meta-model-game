@@ -18,6 +18,9 @@ spec:
           image: ghcr.io/lbggn/meta-model-frontend:latest
           ports:
             - containerPort: 3000
+          env:
+          - name: META_MODEL_BACKEND_URL
+            value: "http://meta-model-backend:8000"  # Utilisation du nom du service Kubernetes
           resources:
             requests:
               cpu: "200m"
