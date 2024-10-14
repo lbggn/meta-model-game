@@ -74,11 +74,6 @@ jobs:
           project_id: ${{ secrets.GKE_PROJECT_ID }}
           export_default_credentials: true
 
-      # Configurer gcloud pour utiliser le projet Google Cloud et la zone
-      - name: Set up Google Cloud configuration
-        run: |
-          gcloud config set compute/zone ${{ secrets.GKE_ZONE }}
-      
       # Ajouter la clé GPG correcte pour le dépôt Google Cloud et installer gke-gcloud-auth-plugin
       - name: Install gke-gcloud-auth-plugin
         run: |
@@ -86,6 +81,11 @@ jobs:
           sudo apt-get install -y apt-transport-https ca-certificates gnupg
           sudo curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo gpg --dearmor -o /usr/share/keyrings/cloud.google.gpg
           sudo apt-get update && sudo apt-get install google-cloud-cli-gke-gcloud-auth-plugin -y
+ 
+      # Configurer gcloud pour utiliser le projet Google Cloud et la zone
+      - name: Set up Google Cloud configuration
+        run: |
+          gcloud config set compute/zone ${{ secrets.GKE_ZONE }}   
 
       # Obtenir les informations d'identification du cluster GKE
       - name: Get GKE credentials
