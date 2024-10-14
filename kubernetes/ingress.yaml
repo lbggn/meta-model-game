@@ -25,7 +25,3 @@ spec:
                 name: meta-model-frontend
                 port:
                   number: 80
-  tls:
-    - hosts:
-        - "meta.bggn.ch"
-      secretName: letsencrypt-prod-tls  # Certificat généré automatiquement par Let's Encrypt
